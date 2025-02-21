@@ -37,7 +37,6 @@ void main()
     // Calculate the other values for each process and print them
     printf("PID | Time\n");
     printf("----+-----\n");
-    current_time = procs[0].at;
     for (int i = 0; i < n; i++) {
         procs[i].ct = current_time + procs[i].bt;
         current_time = procs[i].ct;
