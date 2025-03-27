@@ -9,6 +9,7 @@ typedef struct
     int ct;
     int tat;
     int wt;
+    int completed;
 } Process;
 
 // Sort the processes based on arrival time (using bubble sort)
@@ -48,9 +49,9 @@ void printGanttChart(int gantt[100][2], int gn)
     printf("\n");
 }
 
-// Use the fcfs process scheduling algorithm
+// Use the sjf process scheduling algorithm
 // Print the processes as they are completed
-void fcfs(Process *procs, int n)
+void sjf(Process *procs, int n)
 {
     // Keep track of the current time, starting from the time of arrival of the first process
     int time = procs[0].at;
@@ -63,23 +64,39 @@ void fcfs(Process *procs, int n)
 
     for (int i = 0; i < n; i++)
     {
-        // Time passed until the bt of the each process
-        // (remember that we have sorted the processes by their arrival time)
-        time += procs[i].bt;
+        // Loop through all the processes and find the
+        // shortest , non completed, arrived process
+        Process *shortest_proc = NULL;
+        int shortest_bt = 9999;
+
+        for (int j = 0; j < n; j++)
+        {
+            if (procs[j].at <= time && !procs[j].completed && procs[j].bt < shortest_bt)
+            {
+                // shortest_proc should be a pointer because otherwise changes
+                // will not be made to the pracs inside array
+                shortest_proc = &procs[j];
+            }
+        }
+
+        // Mark the found process as completed
+        shortest_proc->completed = 1;
+
+        // Time is passed till the burst time of the process
+        time += shortest_proc->bt;
 
         // The unfilled values for each process can be filled out in one go
-        procs[i].ct = time;
-        procs[i].tat = procs[i].ct - procs[i].at;
-        procs[i].wt = procs[i].tat - procs[i].bt;
+        shortest_proc->ct = time;
+        shortest_proc->tat = shortest_proc->ct - shortest_proc->at;
+        shortest_proc->wt = shortest_proc->tat - shortest_proc->bt;
 
         // Add the process to the gantt chart
-        gantt[gn][0] = procs[i].pid;
-        gantt[gn][1] = procs[i].ct;
+        gantt[gn][0] = shortest_proc->pid;
+        gantt[gn][1] = shortest_proc->ct;
         gn++;
 
         // Print out the processes immediately after they are executed
-        printf("P%02d | %02d | %02d | %02d |  %02d | %02d\n", procs[i].pid, procs[i].at, procs[i].bt, procs[i].ct, procs[i].tat, procs[i].wt);
-
+        printf("P%02d | %02d | %02d | %02d |  %02d | %02d\n", shortest_proc->pid, shortest_proc->at, shortest_proc->bt, shortest_proc->ct, shortest_proc->tat, shortest_proc->wt);
     }
     // Call the function to print the gantt chart
     printGanttChart(gantt, gn);
@@ -92,13 +109,13 @@ void main()
 
     // Fill out the array of processes with the pid, at and bt of each process
     Process procs[] = {
-        {1, 2, 6},
-        {2, 5, 2},
-        {3, 1, 8},
-        {4, 0, 3},
-        {5, 4, 4},
+        {1, 2, 6, 0, 0, 0, 0},
+        {2, 5, 2, 0, 0, 0, 0},
+        {3, 1, 8, 0, 0, 0, 0},
+        {4, 0, 3, 0, 0, 0, 0},
+        {5, 4, 4, 0, 0, 0, 0},
     };
 
     sortProcesses(procs, n);
-    fcfs(procs, n);
+    sjf(procs, n);
 }
