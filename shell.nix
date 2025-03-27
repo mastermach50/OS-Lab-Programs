@@ -1,1 +1,19 @@
-/home/mathew/dotfiles/.config/Environments/C.shell.nix
+# shell.nix for C/C++ Environment
+{
+  pkgs ? import <nixpkgs> { },
+}:
+
+pkgs.mkShell {
+  name = "C";
+  packages = with pkgs; [
+    libgcc
+    clang-tools
+
+    binutils
+    glibc
+
+  ];
+  LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
+    pkgs.stdenv.cc.cc
+  ];
+}
