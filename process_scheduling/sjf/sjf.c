@@ -76,6 +76,7 @@ void sjf(Process *procs, int n)
                 // shortest_proc should be a pointer because otherwise changes
                 // will not be made to the pracs inside array
                 shortest_proc = &procs[j];
+                shortest_bt = shortest_proc->bt;
             }
         }
 
