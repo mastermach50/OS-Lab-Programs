@@ -10,8 +10,11 @@ int calculateSeekTime(int *requests, int n)
 
     int completed = 0;
 
+    // Infinitely loop until all requests are completed
     while (head_pos >= 0 && head_pos <= TOTAL_TRACKS - 1)
     {
+        // For each position check if any of the requests are for that position
+        // If so mark that request as completed
         for (int j = 0; j < n; j++)
         {
             if (requests[j] == head_pos)
@@ -21,15 +24,19 @@ int calculateSeekTime(int *requests, int n)
             }
         }
 
+        // If all requests are compelted then break from the loop
         if (completed == n)
         {
             break;
         }
 
+        // If the head reaches the end then switch direction
         if (head_pos == TOTAL_TRACKS - 1)
         {
             direction = -1;
         }
+
+        // Move head_pos and increment total_seek_time every loop
         total_seek_time++;
         head_pos += direction;
     }
