@@ -11,5 +11,5 @@ This repository contains the programs for KTU S4 OS Lab.
 | [Bankers Algorithm](./bankers_algorithm/deadlock_prevention.c)                                         | ✅                             |
 | [IPC (Using Shared Memory)](./ipc/shared_memory/)                                                      | ✅                             |
 | [Produce Consumer (Using Semaphore)](./process_synchronization/producer_consumer/prod-con-semaphore.c) | ✅                             |
-| [Page Replacement](./)                                                                                 |                               |
-| [Disk Scheduling](./)                                                                                  | (except fifo)                 |
+| [Page Replacement](./)                                                                                 | (except lfu, fifo)            |
+| [Disk Scheduling](./)                                                                                  | (except look, clook)          |
