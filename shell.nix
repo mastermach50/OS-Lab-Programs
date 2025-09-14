@@ -8,10 +8,8 @@ pkgs.mkShell {
   packages = with pkgs; [
     libgcc
     clang-tools
-
     binutils
     glibc
-
   ];
   LD_LIBRARY_PATH = pkgs.lib.makeLibraryPath [
     pkgs.stdenv.cc.cc
